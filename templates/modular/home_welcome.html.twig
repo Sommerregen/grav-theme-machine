@@ -1,0 +1,16 @@
+<div class="content">
+  <div class="content-welcome">
+    <div class="container">
+      <div class="more">
+        <h3>{{ page.title }}</h3>
+        {{ page.summary | default(page.content) }}
+      </div>
+
+      {% if page.header.link.url %}
+        <a href="{{ page.header.link.url }}" class="read-more info-left">{{ page.header.link.title | default('MORE INFO') }}</a>
+      {% endif %}
+
+      <div class="clearfix"> </div>
+    </div>
+  </div>
+</div>

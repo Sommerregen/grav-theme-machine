@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="services-bottom-in">
+    <div class="col-md-8 content-middle">
+      <h4>{{ page.title }}</h4>
+
+      {% if page.header.subtitle %}
+        <span class="many-left">{{ page.header.subtitle }}</span>
+      {% endif %}
+
+      <p class="grid-para">{{ page.content | striptags }}</p>
+    </div>
+
+    <div class="col-md-4 stand">
+      <p>{{ page.header.box_text }}</p>
+      <a href="{{ page.header.box_url | default('#') }}" class="more-in">{{ page.header.box_title | default('READ MORE') }}</a>
+    </div>
+    <div class="clearfix"> </div>
+  </div>
+</div>

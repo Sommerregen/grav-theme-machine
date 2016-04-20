@@ -1,0 +1,57 @@
+{% set collection = page.collection() %}
+
+{% if collection | length %}
+  <div class="content">
+    <div class="content-bottom-grid">
+      <div class="container">
+        <div class="content-bottom">
+          <h3>{{ page.title }}</h3>
+
+          {% if page.header.subtitle %}
+            <span><i>{{ page.header.subtitle }}</i></span>
+          {% endif %}
+
+          {{ page.content }}
+        </div>
+
+        <div class="content-grid-in">
+          {% for item in collection %}
+            <div class="col-md-4 in-top-content">
+              <div class="in-content">
+                <h4>{{ item.title }}</h4>
+
+                {{ item.summary }}
+
+                <a href="{{ item.header.link.url | default('#') }}" class="read-more in-more">{{ item.header.link.title | default('MORE') }}</a>
+              </div>
+
+              {% if item.media.images %}
+                {% set image = item.media.images | first %}
+
+                <div class="in-content-in">
+                  {% if item.header.link.url %}
+                    <a href="{{ item.header.link.url }}"><img class="img-responsive" src="{{ image.url }}" alt="" /></a>
+                  {% else %}
+                    <img class="img-responsive" src="{{ image.url }}" alt="" />
+                  {% endif %}
+                </div>
+              {% endif %}
+
+              <div class="clearfix"> </div>
+            </div>
+          {% endfor %}
+
+          <div class="clearfix"> </div>
+        </div>
+
+        {% if page.header.promote %}
+          <div class="bottom-in-set">
+            <a class="blub" href="#"> <span ></span></a>
+            <p class="in-due">{{ page.header.promote }}</p>
+            <div class="clearfix"> </div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}

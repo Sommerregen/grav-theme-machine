@@ -1,0 +1,52 @@
+{% if fields | length %}
+  <form name="simple_form" id="simple_form" action="https://getsimpleform.com/messages?form_api_token={{ token }}" enctype="multipart/form-data" method="post">
+
+    {% for key, field in fields %}
+      <div id="simple_form-{{ key }}">
+        {% if field.type in ['text', 'email', 'tel', 'hidden', 'url', 'date'] %}
+          <input type="{{ field.type }}" id="simple_form-field-{{ key }}" name="{{ key }}" class="{{ field.class }}" placeholder="{{ field.placeholder | default(field.title) }}" value="{{ field.default }}" {% if field.required %}required="required"{% endif %} />
+        {% elseif field.type in ['number', 'range'] %}
+          <input type="{{ field.type }}" id="simple_form-field-{{ key }}" name="{{ key }}" class="{{ field.class }}" placeholder="{{ field.placeholder | default(field.title) }}" value="{{ field.default }}" {% if field.required %}required="required"{% endif %} {% if field.min | length >= 0 %}min="{{ field.min }}"{% endif %} {% if field.max | length >= 0 %}max="{{ field.max }}"{% endif %} />
+        {% elseif field.type == 'textarea' %}
+          <textarea id="simple_form-field-{{ key }}" name="{{ key }}" class="{{ field.class }}" placeholder="{{ field.placeholder | default(field.title) }}" {% if field.required %}required="required"{% endif %} cols="77" rows="6">{{ field.default }}</textarea>
+        {% elseif field.type == 'submit' %}
+          <div class="send-in">
+            <input type="submit" id="simple_form-field-{{ key }}" name="{{ key }}" class="{{ field.class }}" value="{{ field.title }}" />
+          </div>
+        {% else %}
+          <input type="text" id="simple_form-field-{{ key }}" name="{{ key }}" class="{{ field.class }}" placeholder="{{ field.placeholder | default(field.title) }}" value="{{ field.default }}" {% if field.required %}required="required"{% endif %} />
+        {% endif %}
+      </div>
+    {% endfor %}
+
+    <div id="simple_form-success"></div>
+  </form>
+
+  <script>
+    $(function() {
+      $('#simple_form').submit(function() {
+        $.ajax({
+          dataType: 'jsonp',
+          url: "http://getsimpleform.com/messages/ajax?form_api_token={{ token }}",
+          data: {
+            {% for key, field in fields %}
+              {% if field.type != 'submit' %}
+                {{ key }}: $("#simple_form-field-{{ key }}").val(),
+              {% endif %}
+            {% endfor %}
+          }
+        }).done(function() {
+          $('#simple_form-success').html("<div class='alert alert-success'>");
+          $('#simple_form-success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;").append("</button>");
+          $('#simple_form-success > .alert-success').append("<strong>{{ messages.success }}</strong>");
+          $('#simple_form-success > .alert-success').append('</div>');
+
+          //clear all fields
+          $('#simple_form').trigger("reset");
+        });
+
+        return false;
+      })
+    });
+  </script>
+{% endif %}

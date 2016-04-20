@@ -1,0 +1,42 @@
+{% extends 'default.html.twig' %}
+
+{% set collection = page.collection() %}
+
+{% block body_content %}
+  {% if collection | length %}
+    <div class="content">
+      <div class="products">
+        <div class="container">
+          <div class="products-top">
+            <h3>{{ page.header.subtitle }}</h3>
+            {{ page.content }}
+          </div>
+
+          <div class="products-bottom">
+            {% for item in collection %}
+              <div class="col-md-4">
+                <div class="view view-tenth">
+                  <a href="{{ item.url }}">
+                    <div class="inner_content clearfix">
+                      <div class="product_image">
+                        {% set image = item.media.images | first %}
+                        <img src="{{ image.url }}" class="img-responsive of-my" alt="" />
+
+                        <div class="mask" >
+                          <h4>{{ item.title }}</h4>
+                          <p>{{ item.summary }}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            {% endfor %}
+
+            <div class="clearfix"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    {% block head %}
+      {% block head_meta %}
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+        {% for meta in page.metadata %}
+          <meta {% if meta.name %}name="{{ meta.name }}" {% endif %}{% if meta.http_equiv %}http-equiv="{{ meta.http_equiv }}" {% endif %}{% if meta.charset %}charset="{{ meta.charset }}" {% endif %}{% if meta.property %}property="{{ meta.property }}" {% endif %}{% if meta.content %}content="{{ meta.content }}" {% endif %}/>
+        {% endfor %}
+
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="description" content="{{ site.metadata.description }}" />
+      {% endblock %}
+
+      {% block head_title %}
+        <title>{% if page.header.title and (page.url != base_url or 'error' == page.template) %}{{ page.header.title }} | {% endif %}{{ site.title }}</title>
+      {% endblock %}
+
+      <link rel="canonical" href="{{ page.url(true) }}" />
+      <link rel="shortcut icon" href="{{ theme_url }}/assets/images/favicon.ico" />
+
+      {% block head_css %}
+        {% do assets.add('theme://assets/css/bootstrap.css') %}
+        {% do assets.add('theme://assets/css/style.css') %}
+        {% do assets.add('theme://assets/css/chocolat.css') %}
+
+        {% do assets.addCss('http://fonts.googleapis.com/css?family=Roboto+Condensed:300italic,400italic,700italic,400,300,700') %}
+
+        {{ assets.css() }}
+      {% endblock %}
+
+      {% block head_css_extra %}{% endblock %}
+
+      {% block head_js %}
+        {# HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries #}
+        {# WARNING: Respond.js doesn't work if you view the page via file:// #}
+        {% if browser.getBrowser == 'msie' and browser.getVersion >= 8 and browser.getVersion <= 9 %}
+          {% do assets.add('https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js') %}
+          {% do assets.add('https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js') %}
+        {% endif %}
+      {% endblock %}
+    {% endblock %}
+  </head>
+
+  {% block body %}<body>{% endblock %}
+    {% block body_header %}
+      <div class="header">
+        <div class="header-top">
+          <div class="container">
+            <div class="top-nav">
+              <span class="menu"> </span>
+              <ul>
+                {% for page in pages.children %}
+                  {% if page.visible %}
+                    {% set current_page = (page.active or page.activeChild) ? 'active' : '' %}
+                    <li><a class="scroll {{ current_page }}" href="{{ page.url }}"><span data-hover="{{ page.menu }}">{{ page.menu }}</span></a>{% if not loop.last %}<label> </label>{% endif %}</li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+
+            <div class="search-box">
+              <div id="sb-search" class="sb-search">
+                <form>
+                  <input class="sb-search-input" placeholder="Enter your search term..." type="search" name="search" id="search">
+                  <input class="sb-search-submit" type="submit" value="">
+                  <span class="sb-icon-search"> </span>
+                </form>
+              </div>
+            </div>
+
+            <div class="clearfix"> </div>
+          </div>
+        </div>
+
+        <div class="header-bottom">
+          <div class="container">
+            <div class="logo">
+              {% block body_logo %}
+                <a href="{{ base_url }}"><img src="{{ theme_config.logo_url | default(theme_url ~ '/assets/images/logo.png') }}" alt=" " /></a>
+              {% endblock %}
+            </div>
+
+            <div class="top-tele">
+              <div class="in-phone"><i class="phone"> </i>
+                <div class="number">
+                  <p>Phone:</p>
+                  <span>{{ theme_config.phone_number }}</span>
+                </div>
+                <div class="clearfix"> </div>
+              </div>
+
+              <div class="in-phone-in"><i class="phone new-phone"> </i>
+                <div class="number">
+                  <p>Location:</p>
+                  {% for line in theme_config.location %}
+                    <span>{{ line }}</span>
+                  {% endfor %}
+                </div>
+                <div class="clearfix"> </div>
+              </div>
+            </div>
+            <div class="clearfix"> </div>
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+
+    {% block body_pre_content %}{% endblock %}
+
+    {% block body_content %}
+      <div class="content">
+        <div class="single">
+          <div class="container">
+            {{ page.content }}
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+
+    {% block body_footer %}
+      <div class="footer">
+        <div class="container">
+          <div class="footer-top">
+            {% if theme_config.newsletter %}
+              <div class="col-md-3 footer-in">
+                <h5>Newsletter</h5>
+              </div>
+
+              <div class="col-md-6 mail">
+                <input type="text" value="ENTER EMAIL" onfocus="this.value='';" onblur="if (this.value == '') {this.value ='ENTER EMAIL';}">
+              </div>
+
+              <div class="col-md-3 send">
+                <input type="submit" value="SUBSCRIBE" >
+              </div>
+              <div class="clearfix"> </div>
+            {% endif %}
+          </div>
+
+          <div class="foter-bottom">
+            {% if theme_config.social_links %}
+              <ul class="social-ic-icons">
+                {% if theme_config.social_links.facebook %}<li class="facebook"><a href="{{ theme_config.social_links.facebook }}"><span> </span></a></li>{% endif %}
+                {% if theme_config.social_links.twitter %}<li class="twitter"><a href="{{ theme_config.social_links.twitter }}"><span> </span></a></li>{% endif %}
+                {% if theme_config.social_links.gplus %}<li class="gmail"><a href="{{ theme_config.social_links.gplus }}"><span> </span></a></li>{% endif %}
+                {% if theme_config.social_links.pinterest %}<li class="print"><a href="{{ theme_config.social_links.pinterest }}"><span> </span></a></li>{% endif %}
+              </ul>
+            {% endif %}
+
+            <p class="footer-grid">Copyright &copy; {{ "NOW" | date('Y') }} @ {{ site.title }} | Design: <a href="http://w3layouts.com/">W3layouts</a> | Grav Theme: <a href="https://nunopress.com">NunoPress LLC</a></p>
+          </div>
+        </div>
+      </div>
+    {% endblock %}
+
+    {% block body_js %}
+      {% do assets.add('theme://assets/js/jquery.min.js', 104) %}
+      {% do assets.add('theme://assets/js/jquery.chocolat.js', 103) %}
+
+      {% do assets.add('theme://assets/js/classie.js', 102) %}
+      {% do assets.add('theme://assets/js/uisearch.js', 101) %}
+
+      {{ assets.js() }}
+
+      <script>
+        $("span.menu").click(function(){
+          $(".top-nav ul").slideToggle(500, function(){
+          });
+        });
+
+        new UISearch( document.getElementById( 'sb-search' ) );
+
+        $('#example1 a').Chocolat();
+      </script>
+    {% endblock %}
+  </body>
+</html>

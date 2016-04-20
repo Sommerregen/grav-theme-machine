@@ -1,0 +1,63 @@
+{% extends 'default.html.twig' %}
+
+{% set collection = page.collection() %}
+
+{% block body_content %}
+  {% if collection | length %}
+    <div class="content">
+      <div class="blog">
+        <div class="container">
+          <div class="blog-top">
+            <h3>{{ page.title }}</h3>
+          </div>
+
+          <div class="blog-bottom">
+            {% for item in collection %}
+              <div class=" single-top">
+                <div class="blog-left">
+                  <p>{{ item.date | date('d') }}</p>
+                  <span>{{ item.date | date('M') }}</span>
+                </div>
+
+                <div class="left-blog">
+                  {% set image = item.media.images | first %}
+                  <a href="{{ item.url }}"><img class="img-responsive" src="{{ image.url }}" alt="" /></a>
+                </div>
+
+                <div class="top-blog">
+                  <a class="fast" href="{{ item.url }}">{{ item.title }}</a>
+
+                  {% if item.header.author or config.plugins.jscomments.enabled %}
+                    <ul class="men-grid">
+                      {% if item.header.author %}
+                        <li><a href="#"><span class="men"> </span>{{ item.header.author }}</a></li>
+                      {% endif %}
+
+                      {% if config.plugins.jscomments.enabled and jscomments_validate_provider('disqus') %}
+                        <li><a href="#" data-disqus-identifier="{{ item.url(true) }}" class="disqus-comment-count"><span class="out"> </span> No comments</a></li>
+                      {% endif %}
+                    </ul>
+                  {% endif %}
+
+                  {{ item.summary }}
+
+                  {% if item.summary %}
+                    <a href="{{ item.url }}" class="read-more here">CLICK HERE</a>
+                  {% endif %}
+                </div>
+
+                <div class="clearfix"> </div>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
+
+{% block body_js %}
+  {{ parent() }}
+
+  {{ jscomments_count() }}
+{% endblock %}

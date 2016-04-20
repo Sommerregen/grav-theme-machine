@@ -1,0 +1,45 @@
+{% extends 'default.html.twig' %}
+
+{% set collection = page.collection() %}
+
+{% block head_css %}
+  {% do assets.add('theme://assets/css/owl.carousel.css') %}
+
+  {{ parent() }}
+{% endblock %}
+
+{% block body_content %}
+  {% for module in collection %}
+    {{ module.content }}
+  {% endfor %}
+{% endblock %}
+
+{% block body_js %}
+  {% do assets.add('theme://assets/js/responsiveslides.min.js') %}
+  {% do assets.add('theme://assets/js/owl.carousel.js') %}
+  {% do assets.add('theme://assets/js/jquery.wmuSlider.js') %}
+
+  {{ parent() }}
+
+  <script>
+    $(document).ready(function() {
+      $("#slider").responsiveSlides({
+        auto: true,
+        speed: 500,
+        namespace: "callbacks",
+        pager: true,
+      });
+
+      $("#owl-demo").owlCarousel({
+        items : 4,
+        lazyLoad : true,
+        autoPlay : true,
+        navigation : true,
+        navigationText :  true,
+        pagination : false,
+      });
+
+      $('.example2').wmuSlider();
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,32 @@
+{% set collection = page.collection() %}
+
+{% if collection | length %}
+  <div class="services-top-top">
+    <div class="container">
+      <div class="services-top">
+        <h3>{{ page.title }}</h3>
+        {{ page.content }}
+      </div>
+
+      <div class="services-bottom">
+        {% for item in collection %}
+          <div class="col-md-4 in-on">
+            {% set image = item.media.images | first %}
+            <a href="#"><img  src="{{ image.url }}" alt="" /></a>
+
+            <div class="read-in">
+              <h5>{{ item.title }}</h5>
+              {{ item.content }}
+
+              {% if item.header.link.url %}
+                <a href="{{ item.header.link.url }}" class="read-more here">{{ item.header.link.title | default('CLICK HERE') }}</a>
+              {% endif %}
+            </div>
+          </div>
+        {% endfor %}
+
+        <div class="clearfix"> </div>
+      </div>
+    </div>
+  </div>
+{% endif %}

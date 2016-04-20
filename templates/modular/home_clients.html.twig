@@ -1,0 +1,31 @@
+{% set collection = page.collection() %}
+
+{% if collection | length %}
+  <div class="content">
+    <div class="content-in-on">
+      <h4>Kind Words from clients</h4>
+      <!-- start content_slider -->
+      <div class="wmuSlider example2">
+        <div class="wmuSliderWrapper">
+          {% for item in collection %}
+          <article style="position: absolute; width: 100%; opacity: 0;">
+            <div class=" item-in">
+              <b class="down-arrow"> </b>
+              <p><i>{{ item.content | striptags }}</i></p>
+              <b class=" in-usa"> </b>
+              <label> </label>
+              <span>{{ item.title }}</span>
+            </div>
+          </article>
+          {% endfor %}
+        </div>
+
+        <ul class="wmuSliderPagination">
+          {% for key, item in collection %}
+            <li><a href="#" class="">{{ key }}</a></li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+{% endif %}

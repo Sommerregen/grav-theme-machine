@@ -1,0 +1,19 @@
+{% set collection = page.collection() %}
+
+{% if collection | length %}
+  <div class="content">
+    <div id="example1">
+      <div id="owl-demo" class="owl-carousel text-center">
+        {% for item in collection %}
+          {% set image = item.media.images | first %}
+
+          <div class="item">
+            <a href="{{ image.url }}" title="{{ item.title }}" rel="{{ item.slug }}">
+              <img class="img-responsive lot" src="{{ image.url }}" alt="" />
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}

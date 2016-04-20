@@ -1,0 +1,30 @@
+enabled: true
+
+# Logo URL
+logo_url: ""
+
+# Phone number
+phone_number: "+128-658-5876(248-order)"
+
+# Location
+location:
+  - "Via Romagnola"
+  - "524 - Roma Italy"
+
+# Newsletter (we need to implement a plguin for this, for now only design)
+newsletter: ""
+
+# Social Links
+social_links:
+  facebook: "#"
+  twitter: "#"
+  gplus: "#"
+  pinterest: "#"
+
+# Grav streams
+streams:
+  schemes:
+    theme:
+      type: ReadOnlyStream
+      paths:
+        - user/themes/machine

@@ -1,0 +1,13 @@
+{% extends 'default.html.twig' %}
+
+{% set collection = page.collection() %}
+
+{% block body_content %}
+  <div class="content">
+    <div class="services">
+      {% for module in collection %}
+        {{ module.content }}
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% set collection = page.collection() %}
+
+{% if collection | length %}
+  <div class="bottom-in-ser">
+    <div class="container">
+      {% for item in collection %}
+        <div class=" col-md-4 grid-categories">
+          <h4>{{ item.title }}</h4>
+          {% set links = item.collection() %}
+
+          {% if links | length %}
+            <ul class="popular ">
+              {% set links = item.collection() %}
+              {% for link in links %}
+                <li><a href="{{ link.header.link }}"><span class="dot"> </span> {{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+          {% else %}
+            {{ item.content }}
+          {% endif %}
+        </div>
+      {% endfor %}
+
+      <div class="clearfix"> </div>
+    </div>
+  </div>
+{% endif %}

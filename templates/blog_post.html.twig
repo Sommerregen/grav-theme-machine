@@ -1,0 +1,62 @@
+{% extends 'default.html.twig' %}
+
+{% block body_content %}
+  <div class="content">
+    <div class="single">
+      <div class="container">
+        <div class="single-header">
+          <h3>{{ page.parent.title }}</h3>
+        </div>
+        <div class="single-page-artical">
+          <div class="artical-content">
+            <h3>{{ page.title }}</h3>
+            {% set image = page.media.images | first %}
+            {% if image %}
+              <img class="img-responsive" src="{{ image.url }}" title="{{ page.slug }}" />
+            {% endif %}
+
+            {{ page.content }}
+          </div>
+
+          <div class="artical-links">
+            <ul>
+              <li><a href="#"><small> </small><span>{{ page.date | date('F d, Y') }}</span></a></li>
+
+              {% if page.header.author %}
+                <li><a href="#"><small class="admin"> </small><span>{{ page.header.author }}</span></a></li>
+              {% endif %}
+
+              {% if config.plugins.jscomments.enabled and jscomments_validate_provider('disqus') %}
+                <li><a href="#"><small class="no"> </small><span data-disqus-identifier="{{ item.url(true) }}" class="disqus-comment-count">No comments</span></a></li>
+              {% endif %}
+
+              <li><a href="{{ page.parent.url }}"><small class="posts"> </small><span>View posts</span></a></li>
+              <li><a href="{{ page.permalink }}"><small class="link"> </small><span>permalink</span></a></li>
+            </ul>
+          </div>
+
+          <div class="share-artical">
+            <h3>Also share on</h3>
+            <ul>
+              <li><a href="#"><span class="face"> </span>Facebook</a></li>
+              <li><a href="#"><span class="twitter"> </span>Twiiter</a></li>
+              <li><a href="#"><span class="link-in"> </span>Linked-in</a></li>
+              <li><a href="#"><span class="google"> </span>Google+</a></li>
+              <li><a href="#"><span class="pin"> </span>Pintrest</a></li>
+              <li><a href="#"><span class="rss"> </span>Rss</a></li>
+            </ul>
+          </div>
+
+          {% if config.plugins.jscomments.enabled %}
+            <div class="artical-commentbox">
+              <h3>Leave a comment</h3>
+              {{ jscomments() }}
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="clearfix"> </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

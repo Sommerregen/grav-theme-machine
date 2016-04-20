@@ -1,0 +1,26 @@
+{% set collection = page.collection() %}
+
+{% block body_pre_content %}
+  {% if collection | length %}
+    <div class="slider">
+      <div class="callbacks_container">
+        <ul class="rslides" id="slider">
+          {% for item in collection %}
+            {% set banner = item.media.images | first %}
+
+            <li>
+              <img src="{{ banner.url }}" alt="" />
+              <div class="banner">
+                <h2>{{ item.title }}</h2>
+
+                {% if item.header.link.url %}
+                  <a href="{{ item.header.link.url }}" class="read-more">{{ item.header.link.title | default('CLICK HERE') }}</a>
+                {% endif %}
+              </div>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  {% endif %}
+{% endblock %}
