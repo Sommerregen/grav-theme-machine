@@ -2,7 +2,7 @@
 title: "It is a long established fact that a reader will be distracted"
 slug: "it-is-a-long-established-fact-that-a-reader-will-be-distracted"
 author: "Admin"
-date: 06-23-2014
+date: 2014-06-23
 
 jscomments:
   provider: "disqus"
