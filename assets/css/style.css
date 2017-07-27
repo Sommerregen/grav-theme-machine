@@ -87,7 +87,7 @@ ul{
 }
 /*----*/
 .top-nav span.menu:before{
-	content: url(../images/menu.png)no-repeat 0px 0px;
+	content: url(../images/menu.png);
 	cursor:pointer;
 	width:100%;
 }
